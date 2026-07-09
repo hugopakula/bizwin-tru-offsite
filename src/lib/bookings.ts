@@ -1,28 +1,38 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import type { Flight } from "@/lib/flights";
+
+// Frontend-side booking record. The backend (server.js) owns users/flights/
+// reservations, but has no confirmation-code or last-name concept, so we keep
+// a thin mapping here: CLASSI-code + last name -> the backend reservation, plus a
+// display snapshot so confirmation/lookup render without re-resolving flights
+// (there's no get-stored-flight-by-id endpoint). Swap this file's body for a
+// table if this ever needs to be shared/multi-instance.
 
 export type Booking = {
   confirmationCode: string;
   fullName: string;
   lastName: string;
-  flight: Flight;
-  from: string;
-  to: string;
-  departDate: string;
-  returnDate?: string;
-  passengers: number;
-  amountPaidCents: number;
+  email: string;
+  // Backend references
+  reservationId: number | string;
+  userId: number | string;
+  flightId: number | string;
+  // Display snapshot (captured at booking time)
+  flightIata: string;
+  origin: string;
+  destination: string;
+  departure: string; // ISO
+  arrival: string; // ISO
+  economyPrice: number;
+  businessPrice: number;
   cardLast4: string;
   createdAt: string;
 };
 
-export type NewBookingInput = Omit<Booking, "confirmationCode" | "lastName" | "createdAt">;
-
-// Server-only, local-file-backed store standing in for the real Supabase
-// table until that project's schema/API contract is provided. Every
-// function below is the swap point — replace the bodies with Supabase
-// calls and nothing outside this file needs to change.
+export type NewBookingInput = Omit<
+  Booking,
+  "confirmationCode" | "lastName" | "createdAt"
+>;
 
 const DATA_DIR = path.join(process.cwd(), ".data");
 const DATA_FILE = path.join(DATA_DIR, "bookings.json");
@@ -34,7 +44,7 @@ function generateConfirmationCode(): string {
   for (let i = 0; i < 6; i++) {
     code += CODE_ALPHABET[Math.floor(Math.random() * CODE_ALPHABET.length)];
   }
-  return `TRU-${code}`;
+  return `CLASSI-${code}`;
 }
 
 function lastNameOf(fullName: string): string {
@@ -79,7 +89,9 @@ export async function createBooking(input: NewBookingInput): Promise<Booking> {
 
 export async function getBookingByCode(code: string): Promise<Booking | null> {
   const bookings = await readAll();
-  return bookings.find((b) => b.confirmationCode === code.trim().toUpperCase()) ?? null;
+  return (
+    bookings.find((b) => b.confirmationCode === code.trim().toUpperCase()) ?? null
+  );
 }
 
 export async function getBookingByCodeAndLastName(
@@ -88,5 +100,7 @@ export async function getBookingByCodeAndLastName(
 ): Promise<Booking | null> {
   const booking = await getBookingByCode(code);
   if (!booking) return null;
-  return booking.lastName.toLowerCase() === lastName.trim().toLowerCase() ? booking : null;
+  return booking.lastName.toLowerCase() === lastName.trim().toLowerCase()
+    ? booking
+    : null;
 }

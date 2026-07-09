@@ -7,7 +7,7 @@ const LINKS = [
   { href: "/manage-booking", label: "Manage booking" },
   { href: "/terms", label: "Terms" },
   { href: "/privacy", label: "Privacy" },
-  { href: "mailto:hello@flytru.com", label: "Contact" },
+  { href: "mailto:hello@flyclassi.com", label: "Contact" },
 ];
 
 export default function Footer() {
@@ -31,12 +31,12 @@ export default function Footer() {
             </ul>
           </nav>
           <p className="text-xs text-paper/40">
-            © {new Date().getFullYear()} Tru. All rights reserved.
+            © {new Date().getFullYear()} Classi. All rights reserved.
           </p>
         </div>
 
         <p className="mt-8 max-w-3xl text-xs leading-relaxed text-paper/40">
-          Every ticket sold on Tru is a genuine economy fare priced the same
+          Every ticket sold on Classi is a genuine economy fare priced the same
           as any other economy seat on that flight. A share of economy
           passengers on each flight are upgraded to business class at no
           additional charge; upgrade status is confirmed at check-in. No

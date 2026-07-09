@@ -4,9 +4,10 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import BookingDetails from "@/components/booking/BookingDetails";
 import { getBookingByCode } from "@/lib/bookings";
+import { getReservationById, isBackendConfigured } from "@/lib/backend";
 
 export const metadata: Metadata = {
-  title: "Booking confirmed — Tru",
+  title: "Booking confirmed — Classi",
   description: "Your seat is booked. Find out at check-in if you've been upgraded to business class.",
 };
 
@@ -17,6 +18,15 @@ type ConfirmationPageProps = {
 export default async function ConfirmationPage({ searchParams }: ConfirmationPageProps) {
   const { code } = await searchParams;
   const booking = code ? await getBookingByCode(code) : null;
+
+  let reservation = null;
+  if (booking && isBackendConfigured()) {
+    try {
+      reservation = await getReservationById(Number(booking.reservationId));
+    } catch {
+      reservation = null;
+    }
+  }
 
   return (
     <>
@@ -32,7 +42,7 @@ export default async function ConfirmationPage({ searchParams }: ConfirmationPag
               .
             </p>
           ) : (
-            <BookingDetails booking={booking} variant="confirmed" />
+            <BookingDetails booking={booking} reservation={reservation} variant="confirmed" />
           )}
         </div>
       </main>

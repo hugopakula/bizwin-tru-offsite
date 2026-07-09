@@ -1,4 +1,4 @@
-# Tru — Landing Page & Mini-App Build Prompt
+# Classi — Landing Page & Mini-App Build Prompt
 
 **Status:** Draft for review
 **Owner:** Hugo
@@ -8,7 +8,7 @@
 
 ## 1. The Idea, In One Paragraph
 
-Tru sells regular economy tickets at normal prices, then gives away business class upgrades to a percentage of customers across flights. The pitch to a buyer: pay economy money, and you might fly business — no loyalty grind, no points math, no luck-of-the-draw upsell at the gate. The brand voice is confident and a little cheeky about it: **"For winners everywhere."** The core proof point to lead with everywhere: **business class for up to 95% less** than buying it outright.
+Classi sells regular economy tickets at normal prices, then gives away business class upgrades to a percentage of customers across flights. The pitch to a buyer: pay economy money, and you might fly business — no loyalty grind, no points math, no luck-of-the-draw upsell at the gate. The brand voice is confident and a little cheeky about it: **"For winners everywhere."** The core proof point to lead with everywhere: **business class for up to 95% less** than buying it outright.
 
 Use this document as the build prompt for the marketing landing page and the booking mini-app that sits on top of it, both in this repo.
 
@@ -22,13 +22,13 @@ Two references set the tone — use them as anchors, not templates to copy direc
 
 **Qatar Airways Privilege Club** — this is the reference for the *booking widget mechanics*: a familiar, trustworthy flight-search pattern (from / to / dates / passengers) overlaid on a full-bleed lifestyle photo, so the utility of "this is how you book a flight" sits inside a premium visual frame instead of feeling like a boring form.
 
-**Synthesis for Tru:** dark, moody, editorial photography (our own model shoots — people genuinely relaxed and glowing in business class) with a large serif display headline, and a clean, light-colored booking card floating on top of or directly below the hero image, styled like a premium OTA search widget but with Tru's fewer, better fields.
+**Synthesis for Classi:** dark, moody, editorial photography (our own model shoots — people genuinely relaxed and glowing in business class) with a large serif display headline, and a clean, light-colored booking card floating on top of or directly below the hero image, styled like a premium OTA search widget but with Classi's fewer, better fields.
 
 **Logo assets** (`/public/brand/`):
-- `bizwin-icon-on-dark.svg` — mark only, off-white, transparent background. Use in the navbar and any other compact placement on black/dark backgrounds.
-- `bizwin-logo-on-dark.svg` — full mark + "BizWin" wordmark + tagline, off-white, for larger dark-background placements (e.g. footer).
-- `bizwin-logo-on-light.svg` — full-color mark + charcoal wordmark, for white/off-white backgrounds.
-- `bizwin-logo-variants.svg` — reference sheet showing all color ways together.
+- `classi-icon-on-dark.svg` — mark only, off-white, transparent background. Use in the navbar and any other compact placement on black/dark backgrounds.
+- `classi-logo-on-dark.svg` — full mark + "Classi" wordmark + tagline, off-white, for larger dark-background placements (e.g. footer).
+- `classi-logo-on-light.svg` — full-color mark + charcoal wordmark, for white/off-white backgrounds.
+- `classi-logo-variants.svg` — reference sheet showing all color ways together.
 
 **Palette:** near-black / deep charcoal base, warm off-white, one metallic-adjacent accent (champagne gold, brushed bronze, or similar) used sparingly for CTAs and highlights — not neon, not "startup blue."
 
@@ -84,7 +84,7 @@ Component notes:
 
 Suggested step structure (copy TBD, structure is the scope item):
 1. **Book your seat** — Choose your flight and pay a normal, honest economy fare.
-2. **We do the upgrading** — Across every flight, Tru gives away a share of business class seats to travelers who booked economy.
+2. **We do the upgrading** — Across every flight, Classi gives away a share of business class seats to travelers who booked economy.
 3. **Find out if you're flying business** — [define timing: at booking? X days before departure? Needs a decision — flag as open question.]
 4. **Fly like a winner** — Lounge access, lie-flat seat, full service, no extra charge.
 
@@ -152,7 +152,7 @@ Suggested structure:
 ## 7. Assets Needed (not yet in hand)
 
 - Model photography: sitting in business class seat, lounge shots, lie-flat/reclined shots, candid "arriving relaxed" shots — Hugo to provide.
-- Final logo/wordmark treatment for "Tru" (nav + footer + favicon).
+- Final logo/wordmark treatment for "Classi" (nav + footer + favicon).
 - Confirmed brand color values (base dark, off-white, accent) and the two typefaces (display serif + UI sans) — placeholders assumed above pending final selection.
 - Real or placeholder past-winner photos + quotes for Sections 4.4 and 5.
 
@@ -164,4 +164,4 @@ Suggested structure:
 2. **Upgrade timing:** when does a buyer learn they've "won" business class — at booking, or closer to departure? Needed for the How It Works copy.
 3. **Regulatory/legal on the upgrade mechanic:** giving away a subset of seats to a subset of customers can read as a sweepstakes/lottery-adjacent promotion depending on jurisdiction and exact mechanics (e.g., is it "chance-based," is there any way to enter without purchase, are odds disclosed). Recommend legal review of the mechanic itself — separate from this page's copy — before the messaging locks in, and before real customer money is involved. This doc assumes the mechanic is already legally sound; it does not evaluate that.
 4. **Past winners authenticity:** real verified customers (needs consent/release) vs. illustrative placeholders at launch — affects both `/past-winners` and the homepage teaser.
-5. **Long-haul threshold:** confirm "5 hours" is the right cutoff to advertise for lie-flat seating, and whether it's universally true across whichever carriers/routes Tru actually uses.
+5. **Long-haul threshold:** confirm "5 hours" is the right cutoff to advertise for lie-flat seating, and whether it's universally true across whichever carriers/routes Classi actually uses.

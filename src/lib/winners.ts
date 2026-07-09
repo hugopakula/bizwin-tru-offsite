@@ -6,7 +6,12 @@ export type Winner = {
   quote: string;
 };
 
-// Placeholder / illustrative data pending a real winner cohort (consent + release process TBD).
+// Placeholder / illustrative data pending a real winner cohort (consent +
+// release process TBD). NOTE: this can't yet be derived from the backend —
+// GET /ticket_reservations exposes is_upgraded, but there's no endpoint to
+// resolve a reservation's flight_id back to a route (import only takes a
+// flight_iata), so real winner routes/names aren't reconstructable from the
+// documented API. Revisit if a get-stored-flight-by-id endpoint is added.
 export const WINNERS: Winner[] = [
   {
     id: "w1",
@@ -41,7 +46,7 @@ export const WINNERS: Winner[] = [
     name: "Aiko M.",
     route: "ORD → DXB",
     date: "2026-03-27",
-    quote: "Told my whole office. Half of them booked their next trip on Tru.",
+    quote: "Told my whole office. Half of them booked their next trip on Classi.",
   },
   {
     id: "w6",

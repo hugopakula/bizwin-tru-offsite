@@ -6,8 +6,8 @@ import WinnerCard from "@/components/winners/WinnerCard";
 import { WINNERS } from "@/lib/winners";
 
 export const metadata: Metadata = {
-  title: "Past Winners — Tru",
-  description: "Real winners, real upgrades — travelers who booked economy on Tru and flew business.",
+  title: "Past Winners — Classi",
+  description: "Real winners, real upgrades — travelers who booked economy on Classi and flew business.",
 };
 
 export default function PastWinnersPage() {

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { Booking } from "@/lib/bookings";
+import type { BackendReservation } from "@/lib/backend";
 import BookingDetails from "@/components/booking/BookingDetails";
 
 export default function ManageBookingForm() {
@@ -10,6 +11,7 @@ export default function ManageBookingForm() {
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
   const [booking, setBooking] = useState<Booking | null>(null);
+  const [reservation, setReservation] = useState<BackendReservation | null>(null);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -31,6 +33,7 @@ export default function ManageBookingForm() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Could not find that booking.");
       setBooking(data.booking as Booking);
+      setReservation((data.reservation as BackendReservation | null) ?? null);
       setStatus("idle");
     } catch (err) {
       setError((err as Error).message);
@@ -39,7 +42,7 @@ export default function ManageBookingForm() {
   }
 
   if (booking) {
-    return <BookingDetails booking={booking} variant="lookup" />;
+    return <BookingDetails booking={booking} reservation={reservation} variant="lookup" />;
   }
 
   return (
@@ -64,7 +67,7 @@ export default function ManageBookingForm() {
             type="text"
             value={code}
             onChange={(e) => setCode(e.target.value)}
-            placeholder="TRU-XXXXXX"
+            placeholder="CLASSI-XXXXXX"
             required
             className="w-full rounded-lg border border-ink/15 bg-white px-3 py-2 text-sm uppercase text-ink placeholder:text-ink/40 focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/30"
           />

@@ -33,7 +33,7 @@ export default function Nav({ solid = false }: { solid?: boolean }) {
           href="/"
           className="font-display text-xl tracking-[0.2em] text-paper uppercase"
         >
-          Tru
+          Classi
         </Link>
 
         <ul className="hidden items-center gap-8 md:flex">
@@ -52,7 +52,7 @@ export default function Nav({ solid = false }: { solid?: boolean }) {
         <div className="flex items-center gap-4">
           <a
             href="tel:+10000000000"
-            aria-label="Contact Tru"
+            aria-label="Contact Classi"
             className="hidden text-paper/80 transition-colors hover:text-paper md:block"
           >
             <svg

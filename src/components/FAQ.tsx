@@ -1,7 +1,7 @@
 const FAQS = [
   {
     q: "Wait — is this a lottery?",
-    a: "No. Every ticket on Tru is a real, honestly priced economy fare — the same fare you'd pay anywhere else for that flight. There's no separate entry, no extra charge for a shot at business, and nothing to buy beyond the ticket itself.",
+    a: "No. Every ticket on Classi is a real, honestly priced economy fare — the same fare you'd pay anywhere else for that flight. There's no separate entry, no extra charge for a shot at business, and nothing to buy beyond the ticket itself.",
   },
   {
     q: "So how do upgrades get decided?",
@@ -9,7 +9,7 @@ const FAQS = [
   },
   {
     q: "When do I find out if I'm flying business?",
-    a: "At check-in. Your Tru confirmation lets you track your flight right up to that point, and your seat is confirmed the moment you check in.",
+    a: "At check-in. Your Classi confirmation lets you track your flight right up to that point, and your seat is confirmed the moment you check in.",
   },
   {
     q: "What if I'm not upgraded?",

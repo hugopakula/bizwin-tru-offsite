@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getBookingByCodeAndLastName } from "@/lib/bookings";
+import { getReservationById, isBackendConfigured } from "@/lib/backend";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -16,10 +17,23 @@ export async function GET(request: Request) {
   const booking = await getBookingByCodeAndLastName(code, lastName);
   if (!booking) {
     return NextResponse.json(
-      { error: "We couldn't find a booking matching that confirmation code and last name." },
+      {
+        error:
+          "We couldn't find a booking matching that confirmation code and last name.",
+      },
       { status: 404 }
     );
   }
 
-  return NextResponse.json({ booking });
+  // Refresh live upgrade/check-in status from the backend (best effort).
+  let reservation = null;
+  if (isBackendConfigured()) {
+    try {
+      reservation = await getReservationById(Number(booking.reservationId));
+    } catch {
+      reservation = null;
+    }
+  }
+
+  return NextResponse.json({ booking, reservation });
 }

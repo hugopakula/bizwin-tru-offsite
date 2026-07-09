@@ -7,12 +7,12 @@ const STEPS = [
   {
     number: "02",
     title: "We do the upgrading",
-    body: "Across every flight, Tru gives away a share of business class seats to travelers who booked economy — no points, no bidding, no gate-side upsell.",
+    body: "Across every flight, Classi gives away a share of business class seats to travelers who booked economy — no points, no bidding, no gate-side upsell.",
   },
   {
     number: "03",
     title: "Check in to find out",
-    body: "Winner status is revealed the moment you check in for your flight — track it right from your Tru confirmation.",
+    body: "Winner status is revealed the moment you check in for your flight — track it right from your Classi confirmation.",
   },
   {
     number: "04",

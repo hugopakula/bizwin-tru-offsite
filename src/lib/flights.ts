@@ -1,29 +1,21 @@
-export type Flight = {
-  id: string;
-  airline: string;
-  flightNumber: string;
-  aircraft: string;
-  departTime: string;
-  arriveTime: string;
-  durationMinutes: number;
-  stops: 0 | 1;
+import type { BackendFlight, FlightSearchResult } from "@/lib/backend";
+
+// Display-facing shape derived from a BackendFlight. The backend has no
+// business fare (aviationstack gives no pricing), so businessPrice is a
+// display-only figure derived deterministically from the real economy price.
+export type FlightSummary = {
+  flightIata: string;
+  origin: string;
+  destination: string;
+  departure: string; // ISO
+  arrival: string; // ISO
+  status: string | null;
   economyPrice: number;
   businessPrice: number;
-  lieFlat: boolean;
+  flightId?: number | string;
 };
 
-const AIRLINES = [
-  { name: "Tru Air", code: "TR" },
-  { name: "Meridian", code: "MD" },
-  { name: "Northline", code: "NL" },
-  { name: "Aurora", code: "AU" },
-];
-
-// Simple string hash so the same search always returns the same placeholder
-// results — no live inventory in v1, but results shouldn't reshuffle on
-// every render of the same query.
-function seedFrom(...parts: string[]): number {
-  const str = parts.join("|");
+function hashString(str: string): number {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
     hash = (hash * 31 + str.charCodeAt(i)) >>> 0;
@@ -31,66 +23,82 @@ function seedFrom(...parts: string[]): number {
   return hash;
 }
 
-function mulberry32(seed: number) {
-  let a = seed;
-  return function () {
-    a |= 0;
-    a = (a + 0x6d2b79f5) | 0;
-    let t = Math.imul(a ^ (a >>> 15), 1 | a);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+// Deterministic per-flight multiplier in ~[12, 20] → "up to 95% less".
+export function derivedBusinessPrice(economyPrice: number, seed: string): number {
+  const multiplier = 12 + (hashString(seed) % 9); // 12..20
+  return Math.round(economyPrice * multiplier);
+}
+
+export function savingsPct(economyPrice: number, businessPrice: number): number {
+  if (businessPrice <= 0) return 0;
+  return Math.round(((businessPrice - economyPrice) / businessPrice) * 100);
+}
+
+export function toFlightSummary(
+  f: BackendFlight | FlightSearchResult
+): FlightSummary {
+  const economyPrice = Math.round(f.price ?? 0);
+  const flightIata = f.number ?? "";
+  const status = "status" in f ? f.status : null;
+  const flightId = "id" in f ? f.id : undefined;
+  return {
+    flightIata,
+    origin: f.origin,
+    destination: f.destination,
+    departure: f.departure,
+    arrival: f.arrival,
+    status,
+    economyPrice,
+    businessPrice: derivedBusinessPrice(economyPrice, flightIata || String(economyPrice)),
+    flightId,
   };
 }
 
-function minutesToLabel(mins: number) {
+export function formatClock(iso: string): string {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "—";
+  return d.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+  });
+}
+
+export function formatDate(iso: string): string {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "—";
+  return d.toLocaleDateString("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+  });
+}
+
+export function durationMinutes(departureIso: string, arrivalIso: string): number {
+  const dep = new Date(departureIso).getTime();
+  const arr = new Date(arrivalIso).getTime();
+  if (Number.isNaN(dep) || Number.isNaN(arr) || arr <= dep) return 0;
+  return Math.round((arr - dep) / 60000);
+}
+
+export function formatDuration(mins: number): string {
+  if (!mins) return "—";
   const h = Math.floor(mins / 60);
   const m = mins % 60;
   return `${h}h ${m.toString().padStart(2, "0")}m`;
 }
 
-function timeLabel(startMinutes: number) {
-  const h = Math.floor(startMinutes / 60) % 24;
-  const m = startMinutes % 60;
-  const period = h >= 12 ? "PM" : "AM";
-  const h12 = h % 12 === 0 ? 12 : h % 12;
-  return `${h12}:${m.toString().padStart(2, "0")} ${period}`;
+export function isLieFlat(departureIso: string, arrivalIso: string): boolean {
+  return durationMinutes(departureIso, arrivalIso) >= 300;
 }
 
-export function generateFlights(
-  from: string,
-  to: string,
-  date: string,
-  count = 6
-): Flight[] {
-  const rand = mulberry32(seedFrom(from, to, date));
-  const flights: Flight[] = [];
-
-  for (let i = 0; i < count; i++) {
-    const airline = AIRLINES[Math.floor(rand() * AIRLINES.length)];
-    const departMinutes = Math.floor(rand() * 20 + 4) * 60 + Math.floor(rand() * 4) * 15;
-    const durationMinutes = Math.floor(rand() * 8 + 2) * 60 + Math.floor(rand() * 4) * 15;
-    const stops = rand() > 0.6 ? 1 : 0;
-    const basePrice = 220 + Math.floor(rand() * 15) * 10 + stops * -20;
-    const businessMultiplier = 6 + rand() * 4;
-
-    flights.push({
-      id: `${from}-${to}-${date}-${i}`,
-      airline: airline.name,
-      flightNumber: `${airline.code}${100 + Math.floor(rand() * 800)}`,
-      aircraft: rand() > 0.5 ? "A350" : "787-9",
-      departTime: timeLabel(departMinutes),
-      arriveTime: timeLabel(departMinutes + durationMinutes),
-      durationMinutes,
-      stops: stops as 0 | 1,
-      economyPrice: basePrice,
-      businessPrice: Math.round(basePrice * businessMultiplier),
-      lieFlat: durationMinutes >= 300,
-    });
-  }
-
-  return flights.sort((a, b) => a.economyPrice - b.economyPrice);
+// Check-in opens 45 min before departure (matches the backend's generated
+// `checkin` column). Winner status is revealed once check-in is open.
+export function checkinTime(departureIso: string): Date {
+  return new Date(new Date(departureIso).getTime() - 45 * 60000);
 }
 
-export function formatDuration(mins: number) {
-  return minutesToLabel(mins);
+export function isCheckinOpen(departureIso: string, now: Date = new Date()): boolean {
+  const t = checkinTime(departureIso);
+  if (Number.isNaN(t.getTime())) return false;
+  return now.getTime() >= t.getTime();
 }

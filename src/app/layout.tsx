@@ -16,11 +16,11 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Tru — For Winners Everywhere",
+  title: "Classi — For Winners Everywhere",
   description:
     "Book economy. Fly business — up to 95% less than buying it outright. Every seat is an honest economy fare. A share of every flight's economy passengers fly business instead, free.",
   openGraph: {
-    title: "Tru — For Winners Everywhere",
+    title: "Classi — For Winners Everywhere",
     description: "Business class for up to 95% less. No points, no luck-of-the-gate upsell.",
     images: ["/og-image.png"],
   },

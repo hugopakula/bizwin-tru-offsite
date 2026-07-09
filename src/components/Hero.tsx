@@ -1,12 +1,16 @@
-import ImagePlaceholder from "@/components/ImagePlaceholder";
+import Image from "next/image";
 import BookingWidget from "@/components/BookingWidget";
 
 export default function Hero() {
   return (
     <section className="relative flex min-h-[92vh] w-full flex-col justify-end overflow-hidden pt-28">
-      <ImagePlaceholder
-        label="Hero — model relaxed in business class, full-bleed cinematic shot"
-        className="absolute inset-0 h-full w-full"
+      <Image
+        src="/classi-hero.webp"
+        alt="Etihad Airways first-class suite with leather seating and champagne service"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-ink/10" />
 

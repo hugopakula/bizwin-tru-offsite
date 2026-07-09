@@ -4,8 +4,8 @@ import Footer from "@/components/Footer";
 import ManageBookingForm from "@/components/booking/ManageBookingForm";
 
 export const metadata: Metadata = {
-  title: "Manage booking — Tru",
-  description: "Look up your Tru booking with your confirmation code and last name.",
+  title: "Manage booking — Classi",
+  description: "Look up your Classi booking with your confirmation code and last name.",
 };
 
 export default function ManageBookingPage() {

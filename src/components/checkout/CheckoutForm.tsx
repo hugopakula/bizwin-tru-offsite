@@ -12,27 +12,15 @@ import {
 } from "@/lib/cardValidation";
 
 type CheckoutFormProps = {
-  flightId: string;
-  from: string;
-  to: string;
-  departDate: string;
-  returnDate?: string;
-  passengers: number;
+  flightIata: string;
   totalPrice: number;
 };
 
-export default function CheckoutForm({
-  flightId,
-  from,
-  to,
-  departDate,
-  returnDate,
-  passengers,
-  totalPrice,
-}: CheckoutFormProps) {
+export default function CheckoutForm({ flightIata, totalPrice }: CheckoutFormProps) {
   const router = useRouter();
 
   const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
   const [cardNumber, setCardNumber] = useState("");
   const [expiry, setExpiry] = useState("");
   const [cvc, setCvc] = useState("");
@@ -45,6 +33,10 @@ export default function CheckoutForm({
 
     if (!fullName.trim()) {
       setError("Enter the full name for this booking.");
+      return;
+    }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.trim())) {
+      setError("Enter a valid email address.");
       return;
     }
     if (!luhnCheck(cardNumber)) {
@@ -68,13 +60,9 @@ export default function CheckoutForm({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           fullName: fullName.trim(),
+          email: email.trim(),
           cardLast4: lastFourDigits(cardNumber),
-          flightId,
-          from,
-          to,
-          departDate,
-          returnDate,
-          passengers,
+          flightIata,
         }),
       });
       const data = await res.json();
@@ -98,6 +86,20 @@ export default function CheckoutForm({
           value={fullName}
           onChange={(e) => setFullName(e.target.value)}
           placeholder="As it appears on your ID"
+          required
+          className={inputClass}
+        />
+      </label>
+
+      <label className="block">
+        <span className="mb-1 block text-xs font-medium uppercase tracking-wide text-ink/50">
+          Email
+        </span>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="you@example.com"
           required
           className={inputClass}
         />

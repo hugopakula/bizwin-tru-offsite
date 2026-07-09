@@ -2,19 +2,14 @@
 
 import { useId, useState } from "react";
 import { useRouter } from "next/navigation";
-import { AIRPORTS, formatAirport } from "@/lib/airports";
-
-type TripType = "round-trip" | "one-way";
+import { AIRPORTS, extractIata, formatAirport } from "@/lib/airports";
 
 type BookingWidgetProps = {
   compact?: boolean;
   initial?: {
     from?: string;
     to?: string;
-    departDate?: string;
-    returnDate?: string;
-    passengers?: number;
-    tripType?: TripType;
+    flightIata?: string;
   };
 };
 
@@ -22,33 +17,28 @@ export default function BookingWidget({ compact = false, initial }: BookingWidge
   const router = useRouter();
   const listId = useId();
 
-  const [tripType, setTripType] = useState<TripType>(initial?.tripType ?? "round-trip");
   const [from, setFrom] = useState(initial?.from ?? "");
   const [to, setTo] = useState(initial?.to ?? "");
-  const [departDate, setDepartDate] = useState(initial?.departDate ?? "");
-  const [returnDate, setReturnDate] = useState(initial?.returnDate ?? "");
-  const [passengers, setPassengers] = useState(initial?.passengers ?? 1);
+  const [flightIata, setFlightIata] = useState(initial?.flightIata ?? "");
   const [error, setError] = useState<string | null>(null);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    if (!from.trim() || !to.trim() || !departDate) {
-      setError("Please fill in where you're flying from, to, and when.");
+    const origin = extractIata(from);
+    const destination = extractIata(to);
+    const flightNo = flightIata.trim().toUpperCase();
+
+    if (!flightNo && (!origin || !destination)) {
+      setError("Enter where you're flying from and to (or a flight number).");
       return;
     }
     setError(null);
 
-    const params = new URLSearchParams({
-      tripType,
-      from: from.trim(),
-      to: to.trim(),
-      departDate,
-      passengers: String(passengers),
-    });
-    if (tripType === "round-trip" && returnDate) {
-      params.set("returnDate", returnDate);
-    }
+    const params = new URLSearchParams();
+    if (origin) params.set("origin", origin);
+    if (destination) params.set("destination", destination);
+    if (flightNo) params.set("flightIata", flightNo);
 
     router.push(`/search?${params.toString()}`);
   }
@@ -60,44 +50,29 @@ export default function BookingWidget({ compact = false, initial }: BookingWidge
         compact ? "p-4" : "p-6 md:p-8"
       }`}
     >
-      <div className="mb-5 flex items-center gap-1 text-sm">
-        {(["round-trip", "one-way"] as const).map((type) => (
-          <button
-            key={type}
-            type="button"
-            onClick={() => setTripType(type)}
-            className={`rounded-full px-4 py-1.5 font-medium transition-colors ${
-              tripType === type
-                ? "bg-ink text-paper"
-                : "text-ink/60 hover:bg-ink/5"
-            }`}
-            aria-pressed={tripType === type}
-          >
-            {type === "round-trip" ? "Round trip" : "One way"}
-          </button>
-        ))}
+      <div className="mb-4 flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-ink/50">
+        <span className="rounded-full bg-ink px-3 py-1 text-paper">One way</span>
+        <span>Live flights, real-time</span>
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-12 md:gap-3">
-        <Field label="From" className="md:col-span-3">
+        <Field label="From" className="md:col-span-4">
           <input
             list={`${listId}-airports`}
             value={from}
             onChange={(e) => setFrom(e.target.value)}
-            placeholder="City or airport"
-            required
+            placeholder="City or airport code"
             className={inputClass}
             aria-label="Flying from"
           />
         </Field>
 
-        <Field label="To" className="md:col-span-3">
+        <Field label="To" className="md:col-span-4">
           <input
             list={`${listId}-airports`}
             value={to}
             onChange={(e) => setTo(e.target.value)}
-            placeholder="City or airport"
-            required
+            placeholder="City or airport code"
             className={inputClass}
             aria-label="Flying to"
           />
@@ -109,51 +84,14 @@ export default function BookingWidget({ compact = false, initial }: BookingWidge
           ))}
         </datalist>
 
-        <Field label="Depart" className="md:col-span-2">
+        <Field label="Flight # (optional)" className="md:col-span-4">
           <input
-            type="date"
-            value={departDate}
-            onChange={(e) => setDepartDate(e.target.value)}
-            required
+            value={flightIata}
+            onChange={(e) => setFlightIata(e.target.value)}
+            placeholder="e.g. QF7420"
             className={inputClass}
-            aria-label="Departure date"
+            aria-label="Flight number (optional)"
           />
-        </Field>
-
-        <Field label="Return" className="md:col-span-2">
-          <input
-            type="date"
-            value={returnDate}
-            onChange={(e) => setReturnDate(e.target.value)}
-            disabled={tripType === "one-way"}
-            className={`${inputClass} disabled:opacity-40`}
-            aria-label="Return date"
-            aria-disabled={tripType === "one-way"}
-          />
-        </Field>
-
-        <Field label="Passengers" className="md:col-span-2">
-          <div className="flex items-center justify-between rounded-lg border border-ink/15 bg-white px-2 py-2">
-            <button
-              type="button"
-              onClick={() => setPassengers((p) => Math.max(1, p - 1))}
-              aria-label="Decrease passengers"
-              className="flex h-6 w-6 items-center justify-center rounded-full text-ink/70 hover:bg-ink/5"
-            >
-              −
-            </button>
-            <span aria-live="polite" className="text-sm font-medium">
-              {passengers}
-            </span>
-            <button
-              type="button"
-              onClick={() => setPassengers((p) => Math.min(9, p + 1))}
-              aria-label="Increase passengers"
-              className="flex h-6 w-6 items-center justify-center rounded-full text-ink/70 hover:bg-ink/5"
-            >
-              +
-            </button>
-          </div>
         </Field>
       </div>
 
