@@ -4,6 +4,9 @@ export type Winner = {
   route: string;
   date: string;
   quote: string;
+  image: string;
+  // Optional homepage-teaser-only override; falls back to `image` elsewhere.
+  homeImage?: string;
 };
 
 // Placeholder / illustrative data pending a real winner cohort (consent +
@@ -19,6 +22,7 @@ export const WINNERS: Winner[] = [
     route: "SFO → NRT",
     date: "2026-05-14",
     quote: "I booked economy on a whim. Boarded in business. Still not over it.",
+    image: "/winner-sarah-t.png",
   },
   {
     id: "w2",
@@ -26,6 +30,7 @@ export const WINNERS: Winner[] = [
     route: "JFK → LHR",
     date: "2026-05-02",
     quote: "Found out at check-in. Genuinely thought the app was broken.",
+    image: "/winner-marcus-l.png",
   },
   {
     id: "w3",
@@ -33,6 +38,7 @@ export const WINNERS: Winner[] = [
     route: "LAX → SIN",
     date: "2026-04-21",
     quote: "Lie-flat for sixteen hours after paying an economy fare. Never flying any other way.",
+    image: "/winner-priya-r.png",
   },
   {
     id: "w4",
@@ -40,6 +46,7 @@ export const WINNERS: Winner[] = [
     route: "MIA → GRU",
     date: "2026-04-09",
     quote: "The lounge alone was worth the surprise. The seat was a bonus.",
+    image: "/winner-diego-f.png",
   },
   {
     id: "w5",
@@ -47,6 +54,7 @@ export const WINNERS: Winner[] = [
     route: "ORD → DXB",
     date: "2026-03-27",
     quote: "Told my whole office. Half of them booked their next trip on Classi.",
+    image: "/winner-aiko.png",
   },
   {
     id: "w6",
@@ -54,5 +62,6 @@ export const WINNERS: Winner[] = [
     route: "ATH → JFK",
     date: "2026-03-11",
     quote: "No points, no waiting list, no catch. Just a better seat than I paid for.",
+    image: "/winner-ben-k.png",
   },
 ];

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import ImagePlaceholder from "@/components/ImagePlaceholder";
 
 const PILLARS = [
@@ -5,16 +6,19 @@ const PILLARS = [
     title: "Lounge access",
     body: "Quiet space before the gate — food, drinks, and a moment to breathe before you fly.",
     label: "Business lounge, model shoot",
+    image: "/lounge-access.png",
   },
   {
     title: "Lie-flat seats, on longer routes",
     body: "On flights over roughly five hours, business class means a fully reclining, lie-flat seat. Shorter hops mean extra room and recline, not a flat bed — we'll always tell you which you're getting.",
     label: "Lie-flat seat, model shoot",
+    image: "/lie-flat.png",
   },
   {
     title: "Service that takes care of you",
     body: "Dedicated cabin crew attention, better food, and the small things that make a long flight feel short.",
     label: "Cabin service, model shoot",
+    image: "/cabin-service.png",
   },
 ];
 
@@ -42,7 +46,19 @@ export default function WhyBusinessClass() {
                 i % 2 === 1 ? "md:[&>*:first-child]:order-2" : ""
               }`}
             >
-              <ImagePlaceholder label={pillar.label} aspect="aspect-[4/3]" className="rounded-xl" />
+              {pillar.image ? (
+                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl">
+                  <Image
+                    src={pillar.image}
+                    alt={pillar.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover"
+                  />
+                </div>
+              ) : (
+                <ImagePlaceholder label={pillar.label} aspect="aspect-[4/3]" className="rounded-xl" />
+              )}
               <div>
                 <h3 className="font-display text-2xl uppercase tracking-wide">
                   {pillar.title}

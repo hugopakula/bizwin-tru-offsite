@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -29,11 +30,15 @@ export default function Nav({ solid = false }: { solid?: boolean }) {
       }`}
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 md:px-10">
-        <Link
-          href="/"
-          className="font-display text-xl tracking-[0.2em] text-paper uppercase"
-        >
-          Classi
+        <Link href="/" aria-label="Classi — home" className="flex items-center">
+          <Image
+            src="/classi-logo-white.png"
+            alt="Classi"
+            width={85}
+            height={32}
+            priority
+            className="h-8 w-auto"
+          />
         </Link>
 
         <ul className="hidden items-center gap-8 md:flex">
