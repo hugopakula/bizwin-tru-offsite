@@ -24,6 +24,12 @@ Two references set the tone — use them as anchors, not templates to copy direc
 
 **Synthesis for Tru:** dark, moody, editorial photography (our own model shoots — people genuinely relaxed and glowing in business class) with a large serif display headline, and a clean, light-colored booking card floating on top of or directly below the hero image, styled like a premium OTA search widget but with Tru's fewer, better fields.
 
+**Logo assets** (`/public/brand/`):
+- `bizwin-icon-on-dark.svg` — mark only, off-white, transparent background. Use in the navbar and any other compact placement on black/dark backgrounds.
+- `bizwin-logo-on-dark.svg` — full mark + "BizWin" wordmark + tagline, off-white, for larger dark-background placements (e.g. footer).
+- `bizwin-logo-on-light.svg` — full-color mark + charcoal wordmark, for white/off-white backgrounds.
+- `bizwin-logo-variants.svg` — reference sheet showing all color ways together.
+
 **Palette:** near-black / deep charcoal base, warm off-white, one metallic-adjacent accent (champagne gold, brushed bronze, or similar) used sparingly for CTAs and highlights — not neon, not "startup blue."
 
 **Type:** one large serif display face for headlines and the tagline (uppercase, generous letter-spacing, per the Snami reference), one clean sans for body copy and UI/form elements (booking widget, nav, buttons).

@@ -4,6 +4,7 @@ const LINKS = [
   { href: "/#how-it-works", label: "How it works" },
   { href: "/past-winners", label: "Past Winners" },
   { href: "/#why-business-class", label: "Why Business Class" },
+  { href: "/manage-booking", label: "Manage booking" },
   { href: "/terms", label: "Terms" },
   { href: "/privacy", label: "Privacy" },
   { href: "mailto:hello@flytru.com", label: "Contact" },

@@ -49,7 +49,7 @@ export default function FlightCard({ flight, searchParams }: FlightCardProps) {
           </p>
         </div>
         <Link
-          href={`/confirmation?flightId=${flight.id}&${searchParams}`}
+          href={`/checkout?flightId=${flight.id}&${searchParams}`}
           className="whitespace-nowrap rounded-full bg-gold px-5 py-2 text-sm font-semibold text-ink transition-colors hover:bg-gold-soft"
         >
           Select
