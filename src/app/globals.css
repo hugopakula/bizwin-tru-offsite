@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+:root {
+  --color-ink: #0b0b0a;
+  --color-ink-soft: #1c1b19;
+  --color-paper: #f7f2e9;
+  --color-paper-dim: #e9e2d3;
+  --color-gold: #c9a66b;
+  --color-gold-soft: #ddc191;
+}
+
+@theme inline {
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-paper: var(--color-paper);
+  --color-paper-dim: var(--color-paper-dim);
+  --color-gold: var(--color-gold);
+  --color-gold-soft: var(--color-gold-soft);
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-inter);
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-paper);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+.font-display {
+  font-family: var(--font-display), Georgia, serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
